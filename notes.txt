@@ -1,0 +1,397 @@
+COMPILATION
+
+    g++ -Wall -std=c++14 main.cpp -o main.exe   this will make an executable file called main.exe
+     ./main       this will run the executable file main.exe
+
+the cpp preprocessor
+
+    a program that processes your source code before the compiler sees it
+    will replace all comments with a single space looks for preprocessor directive -- lines that being with a #
+    ex. "#include <iostream>"
+    -replaces with file you're looking for
+
+    the cpp preprocessor does not understand cpp -- gets code ready for compiler
+
+
+the main function
+
+    every cpp program must have 1 main function. the main is called by the os. 0 for successful run. must return a value.
+
+namespaces
+
+    why std::cout and not just cout?
+    naming conflicts -> multiple librarys can contain the same names
+    :: -- the scope resolution operator -- determine which librarys phrase to use ex std::cout (use standard namespace cout)
+
+    "using namespace std;'
+
+    Use the entire std namespace -- uses all the names within the standard library
+
+    seeming alternative to "using namespace std" -- using std::cout; using std::cin; ..etc 
+    use what you need
+
+std::cin and std::cout (buffer)
+
+    what can you do with cin and cout? when waiting for user input it has a "buffer". 
+    ex. 
+    cout << "enter num1: " <<endl;
+    cin >> num1 
+    cout << "enter num2: " <<endl;
+    cin >> num2
+
+    if you enter "123    124" when requested for num1, num1 will gain value 123 and num2 will gain value 124. this happens because of the buffer. all the values written are stored
+    and so the it will read an integer, then move onto the next line of code, then will read another integer. 
+
+    entering a string:
+    sets num value to zero? -- dont know if this is because that is what is currently in the memory or because of fail state
+    
+variables
+
+    variables are abstractions of memory locations. Variables are assigned values in place of assigning them directly to memory -- which would be tedious
+    variables have 
+        type: their category (the amount of memory required to store, and the format in which it will be stored)
+        and their value.
+
+    variables MUST be declared before usage in cpp
+
+declaration of variables and initializing
+
+    int age; string name; double rate;
+    etc
+
+    OOP - object oriented programming -
+    VariableType variable_Name;
+    create objects
+
+    Variable naming:
+
+    you cannot declare a variable that has already been declared in the same scope!
+
+    you must not use reserved words
+
+    you may not use special characters or mathematical signs ex: $myName, myName+1
+
+    variable names cant have spaces
+
+    cout is a valid name for a variable, UNLESS you call using std::cout; or using namespace std;  -- this is because it will be declared by this namespace, and using it would be redeclaring it.
+
+    BE CONSISTENT WITH NAMING CONVENTIONS
+
+    int age; //uninitialized
+
+    int age = 21; C-like initialization
+
+    int age (21); // Constructor initialization
+
+    int age {21}; // c++11 list initialization syntax --encouraged by frank
+
+    leaving a variable uninitialized leaves the potential for that value to be anything -- whatever happens to be in that memory location at that current time.
+
+global and local variables
+    
+    at this point the variables which we have been using have been within functions. These variables are local to their function.
+
+    However variables can be declared outside of functions. These variables are global variables.
+
+    Global variables can be accessed from any funtion.
+        -dangerous to use because they can be changed from any function as well.
+
+    Global variables are automatically initialized to zero.
+        
+    compiler looks locally for variables before checking globally.
+
+built in primitive types
+
+    also known as fundemental data types
+
+    -implemented directly by cpp language
+
+    types:
+        -character types
+        -integer types
+            -signed and unsigned
+        -boolean type
+
+    character types
+        used to represent single characters -ex. "a", "A", "x", "@" etc
+        exactly 1 byte. at least 8 bits. Can represent 2^8 or 256 different characters
+        char16_t atleast 16 bits
+        char32_t atleast 32 bits
+        wchar_t can represent the largest available character set
+        
+        when working with characters in this course we will be using char16_t
+
+    integer types
+        signed short int        atleast 16 bits
+        signed int              atleast 16 bits
+        signed long int         atleast 32 bits
+        singed long long int    atleast 64 bits
+        unsigned short int      atleast 16 bits
+        unsigned int            atleast 16 bits
+        unsigned long int       atleast 32 bits
+        unsigned long long int  atleast 64 bits
+
+    -by default integers are signed
+
+    -for most applications int is ok -- be sure to keep in mind which variable type you use for which calculation as overflow can occur
+
+    floating point types 
+        -used to represent non-int numbers
+        float       7 decimal digits
+        double      no less than float/15 decimal digits
+        long double no less than double/19 decimal digits
+
+    -not possible to store infinite values precisely, uses approximations
+
+    boolean type   
+        used to represent true and false
+            0 is false
+            1 is true
+        bool is usually 8 bits. true and false are c++ keywords
+
+sizeof operator
+    determines the size in bytes of a type or variable. can be used to determine the size of compound types,
+    ex. sizeof(int)
+        sizeof(double)
+        sizeof(myVariable)
+
+     gets information from 2 cpp include files.
+     #include <climits>
+     #include <cfloat>  
+    these two files also give information about the precision of our machine.
+    INT_MAX, INT_MIN, LONG_MIN, LONG_MAX
+
+Constants
+
+    like cpp variables
+    have names, occupy storage, usually typed
+    THEIR VALUE CANNOT CHANGE ONCE DECLARED!
+
+    types of Constants
+        literal constants
+        declared constants (const keyword)
+        constant expressions (constexpr keyword)
+        enumerated constants (enum keyword)
+        defined constants (#define)
+    
+    literal constants
+        values like 1, 2, 3, 32.5, "abc", "r", etc
+        also newline character /n escape character / etc
+    declared constants
+        ex const double pi {3.1415926}
+    defined constants
+        #define pi 3.1415926
+        --preprocessor substitutes all instances of pi with 3.1415926 **
+        **note: dont use this in mordern code, this was frequently used in legacy code.
+
+Arrays
+
+    compound data type or data structure.
+        -collection of elements
+    all elements of the same type
+    each element can be accessed directly
+
+    properties of arrays:
+        -fixed in size
+        -elements are all the same type
+        -stored contiguously in memory
+        -individual elements can be accessed by their position or index
+
+        -first element is at index 0
+        -last element is at index size -1
+
+        -NO BOUND CHECKING 
+
+        -always initialize arrays
+        -very efficient
+
+    Element_Type array_name[constant number of elements] {intialization list};
+    ex
+    my_array[10]{1,2,3} -> array index 0-2 get set to 1, 2, and 3 respectively. All else are set to zero.
+
+    const double days_in_a_year{365};
+    double hi_temperatures[days_in_a_year]{0} -> all numbers get set to zero
+
+    int another_array[]{1,2,3,4,5} -> the compilier will figure it out
+
+    note about array declaration** int myArray[10]{0} // this array declaration will have 10 elements, with all being 0. HOWEVER, it will only index to 9.
+    
+Multi-Dimensional Arrays
+
+    Element_Type array_name[dim1_size][dim2_size]
+    dim1_size: row, dim2_size: col.
+
+    ex. int movie_rating[3][4];
+
+    initializing a multidimensional array
+
+    int movie_rating[3][4]{
+        {1,2,3,4},
+        {5,6,7,8},
+        {1,4,5,8}
+    }
+
+Vectors
+    Container in the c++ standard template library
+    an array that can grow and srhink in size at execution time -- DYNAMIC
+    stored contiguously
+    provides similar semantics and syntax as arrays
+    very efficient
+    can provide bounds checking
+    elements initialized to zero
+
+    declaring a vector:
+        (they are objects, different from declaring arrays)
+
+        #include <vector>
+        using namespace std;
+
+            vector <char> vowels;
+            vector <int> test_scores;
+
+        constructor initialization syntax
+            vector <char> vowels (5);
+            vector <int test_scores(10);
+
+        initialization list
+
+            vector <char> vowels { 'a', 'e', 'i', 'o', 'u'};
+
+            vector <double> hi_temperatures (365, 80.0); // this will declare an vector of 365 elements that have all been all set to 80.0
+        
+        accessing vector elements 
+
+            array syntax
+
+                vector_name[element_index]
+                ex. test_scores[0];
+                -when accessing like this, there is no bounds checking
+        
+            vector syntax
+
+                vector_name.at(element_index)
+                ex. test_scores.at(0)
+
+            ADDING AN ELEMENT TO A VECTOR
+            vector_name.push_back(element)
+            vector will automatically allocate the required space
+            
+Expressions, Statements, and Operators
+    expression:
+        the most basic block of a programa sequence of operators and operands that give a value
+
+    types of operators:
+    unary, binary, ternary
+
+    common operators:
+    -assignment
+    -arithmetic
+    -increment/decrement
+    -relational
+    -logical
+    -member access
+    -object
+    -pointer
+
+    assignemnt:
+        -cpp is statically typed, so if it doesnt make sense to store lhs in rhs, it will throw an error
+
+    plus minus multiplication division
+        -overloaded 
+            -means that it will work with different types
+    modulo operator only works with integers
+    
+    increment opererator
+        assignment
+        
+        pre-increment
+            counter = 10, result = 0;
+            result = ++counter;
+                -this will first increment counter, then result will get counter, so result will be 11 and counter will be 11
+
+        post increment:
+            counter = 10, result = 0;
+            result = counter++;
+                -result will be set, then counter will be incremented, so counter will be 11 and result will be 10
+        
+        the functionality of these two can be remembered by pre-increment is being incremented before the variable is used. Post increment is incrementing the variable after it is used.
+
+    Mixed Type Expressions 
+        Higher vs Lower
+            higher vs lower types are based on the size of the values the type can hold
+            ->lower types can be converted into a higher type, because the value can fit
+                -ex: a int can fit into a double
+            type conversion = type coercion
+                -sometimes automatic, sometimes explicitly written in code
+            promotion: conversion to a higher type
+                ex: adding an int to a double. The int is promoted into a double, then added
+            demotion: conversion to a lower type
+                ex. double 12.5 becomes int 12 and the .5 gets truncated
+                -includes potential loss of precision
+
+                ex. 
+                int num{0};
+                num = 100.2;
+                    -- the .2 is lost and the c compilier will coerce 100.2 to be of type int, 100
+
+            Explicit Type Casting - static_cast<type>
+                ex.
+                int total_amount{100};
+                int total_number{8};
+                double average{0.0};
+
+                average = total_amount total number;
+                cout << average << endl; //this is wrong, will display 12
+
+                average = static_cast<double>(total_amount) / total_number;
+                cout << average << endl; //this is correct, will display 12.5    
+                    --because one of the types, total_amount, is cast to a double, the whole operation will be double division rather than integer division, so the resulting value will be a double
+
+            testing for equality
+                cout << (num1 == num2) << endl; //output 0 or 1
+                cout << std::boolalpha; //makes boolean outputs true or false
+                cout << (num1 == num2) << endl; //output true or false
+                cout << std::noboolalpha; //returns outputs to 0 or 1
+
+            be careful with floating point comparison. 12.0 == 11.9999999999999999999999999 //this is true
+
+            if comparing an integer and a double the integer will be promoted to being a double.
+        
+
+    logical operator
+        precedence
+        1 not > 2 and > 3 or
+    controlling program flow
+        sequence
+            -ordering statements sequentially
+        selection
+            -making decisions
+        iteration
+            -looping or repeating
+        with these three, we can implement any algorithm
+
+    ranged based for loop:
+        //iterating over a collection
+        for(var_type var_name: sequence){
+            statements; // can use var name
+        }
+
+        ex.
+            vector<double> temps {87.2, 77.1, 80.0, 72.5}; 
+            double average_temp{};
+            double running_sum{};
+
+            for(auto temp: temps){ //auto = processor will assign type automatically (in this case used in place of double)
+                running_sum += temp;
+            }
+
+            average_temp = running_sum / temps.size();
+
+    continue/break
+        -continue
+            -no further statements in the body of the loop are executed
+            -control immediately goes directly to the beginning of the next loop for iteration
+        -break
+            -no further statements in the body of the loop are executed
+            -loop is immediately terminated
+            -Control immediately goes to statement following the loop
