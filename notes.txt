@@ -395,3 +395,90 @@ Expressions, Statements, and Operators
             -no further statements in the body of the loop are executed
             -loop is immediately terminated
             -Control immediately goes to statement following the loop
+    Character functions
+        working with characters
+            -#include <cctype>
+            function_nam(char)
+
+                -functions for testing characters
+                -functions for converting character case
+        testing chars:
+
+            isalpha(c)  true if c is a letter
+            isalnum(C)  true if c is a letter or digits
+            isdigit(c)  true if c is a digits
+            islower(c)  true if c is a lowercase letter
+            isprint(c)  true if c is a printable character
+            ispunct(c)  true if c is a punctuation character
+            isupper(c)  true if c is an uppercase letter
+            isspace(c) true if c is whitespace
+        
+        converting chars
+
+            tolower(c) returns lowercase of c
+            toupper(c) returns uppercase of c
+    C-style strings
+        sequence of characters
+            -stored contiguously in memory
+            -implemented as an array of characters
+            -terminated by a null character (null)
+                -null character with a value of zerreferred to as zero or null terminated strings
+        string literal
+            sequence of characters in double quotes, e.g. "Frank"
+            constant
+            terminated with null character
+
+        ex c-style strings
+            string literal: 
+                "C++ is fun"
+                //stored like this (each | represents the seperation of characters):
+                // C|+|+| |i|s| |f|u|n|\0
+            string variable: 
+                char my_name[]{"Lucas"};
+                // |L|u|c|a|s|\0
+                //creates an array with 6 elements
+                my_name[5] = 'y' //this is bad, the \0 (null termination) would be replaced with a y
+
+                HOWEVER
+                char my_name[8]{"Lucas"};
+                //this is initialized with 8 characters so output would be
+                // |L|u|c|a|s|\0|\0|\0
+                //updating position 5 is no longer an issue, there is room for it
+                my_name[5] = y //perfectly acceptable
+
+
+                char my_name[8];
+                // |?|?|?|?|?|?|?|?
+                my_name = "Lucas" //error
+                //if we try to assign "Lucas" to my_name it will not work. Literals and array names evaluate to their locations in memory
+                //so by doing this we're trying to assign one location to another which is illegal.
+                //this is the equivalent of trying to assign 10 to 12 
+                
+                strcpy(my_name, "Lucas"); //ok
+
+            #include <cstring>
+                functions that work with C-style strings
+                    -copying
+                    -concatenation
+                    -comparison
+                    -searching
+                    -other
+                    //all of these depend on that the string terminates with a null character
+
+                ex
+                    char str[80];
+                    strcpy(str, "hello "); //copy
+                    strcat(str, "there"); /concatenation
+                    cout << strlen(str); //10
+                    strcmp(str, "another); /-1      
+
+            #include <cstdlib>
+                general purpose functions
+                functions to convert C-style strings to
+                    -integers
+                    -float
+                    -long
+                    -etc
+                //all of these functions work with null terminated strings.
+
+
