@@ -480,5 +480,58 @@ Expressions, Statements, and Operators
                     -long
                     -etc
                 //all of these functions work with null terminated strings.
+    C++ Strings
+        std:string is a Class in the Standard Template Library
+        #include <string>
+        std namespace
+        contiguous in memory 
+        dynamic size 
+        work with input and output streams 
+        our familiar operators can be used
+        can be easily converted to C-style Strings if needed
+        safer
+        
+
+        declaring and initializing
+            #include <string>
+            using namespace std;
+
+            string s1;  //empty
+            string s2{"Lucas"} // Lucas
+            string s3{s2}; // Lucas 
+            string s4{"Lucas", 3} //Luc
+            string s5{s3, 0, 2} //lu
+            string s6(3,'x'); //xxx
+    
+        you can set a string to be equal to a string literal. 
+        you can concatenate a cpp string with an addition sign and a string literal
+        you can access string characters in the same way as vectors
+
+        string s1{"Lucas"};
+        for (char c:s1){
+            cout << c << " "; // output: L u c a s \0 (null character)
+        }
+
+        in lexical comparisons 
+        capital A < lowercase a 
+        a < b < c < d < etc
+        valid comparisons:
+            two std::string objects
+            std::string object and c style string literal
+            std::string object and c style string variable
+        
+        object.substr(start_index, length); //returns a substring from a std::string
+        
+        object.find(search_string); //finds the index of a substring in a std::string
+        string s1{"this is a test"};
+            cout < s1.find("this"); //0
+            cout << s1.find("is"); //2
+            cout << s1.find("is", 4); //5 --search start from a specific index
+            cout << s1.find("XX"); // string npos
+        removing characters - erase() and clear()
+            cout << s1.erase(0,5); //is a test    
+            cout << s1.clear() //empty string
+            
 
 
+        
