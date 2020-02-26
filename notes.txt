@@ -531,7 +531,159 @@ Expressions, Statements, and Operators
         removing characters - erase() and clear()
             cout << s1.erase(0,5); //is a test    
             cout << s1.clear() //empty string
-            
+
+    functions
+        -definition
+        -prototype 
+        -parameters and pass-by-value
+        -return statement
+        -default parameter values
+        -overloading
+        -passing arrays to function
+        -pass by reference
+        -inline functions
+        -auto return type
+        -recursive functions
+    what is a function?
+        functions allow the modularization of a program
+        these units can be reused 
+        -what matters is the input and output
+            -you dont really need to know how the function works internally
+        ex. <cmath>
+            -global functions
+        after learning functions > oop > learn c++ standard library header files (https://en.cppreference.com/w/cpp/header)
+
+    defining functions
+        name
+            -the name of the function
+            -same rules as variables
+            -usually verb or phrase
+        parameter list
+            -the variables passed into the function
+            -their types must be specified
+        return type
+            -the type of data that is returned from the function
+        body
+            -the statments that are executed when the function is called
+    
+    Compiler must know about function details BEFORE it is called
+        -the compilier cant check to see if the inputs are correct (# of params and types of params)
+        solutions:
+            -define all functions before calling them
+            -function prototypes
+                -aka forward declarations
+            -placed at the top of the program
+            -also used in header files
+        ex.
+        int function_name(int);     //prototypes
+        int function_name(int a);   //variable name is not neccessary but good for documentation
+    how paramaters are passed into functions
+        when you pass data into a function it is passed by value.
+        a copy of the data is passed to the function 
+        whatever changes you make to the parameter in the function does not affect the arguement that was passed in 
+
+        formal vs Actual parameters
+        -formal parameters - parameters defined in the function header
+        -actual parameters - the parameters used in the function call, the arguements
+    return Statements
+        if a function is void return statement is optional
+        return immediately exits the function
+
+    default arguemnt values
+        if value is ommited from function call, then it will use default value.
+        can add default values to function prototype or definition but not both
+            best practice in the prototype
+        
+        ex prototype:
+            double calc_cost(double base_cost, double tax_rate = 0.06); //if tax_rate is not provided, this will be the rate. if it is supplied it will use whatever is used
+        
+    overloading functions
+        We can have functions that differ in paramater lists that have the same name
+
+        ex.
+        print_double, print_string, print_int //why have multiple functions with the same purpose
+
+        this is a type of polymorphism
+
+        the compiler will be able to tell the functions apart based on the parameter lists and the argument supplied
+        ex
+
+            int add_numbers(int, int);
+            double add_numbers(double, double);
+
+            int add_numbers(int a, int b){
+                return a + b;
+            }
+
+            double add_numbers(double a, double b){
+                return a + b;
+            }
+
+        the functions must both be written. -- this can be done with function templates
+
+        there is a problem -- return type is not considered
+
+    passing arrays to functions
+        array elements are NOT copied
+            since the array name evaluates to the location of the array in memory, this address is copied
+            the function has no idea how many elements are in the array since all it knows is thel ocation of the first element
+        when passing an array, you should also pass the size of the array
+        because the function is being passed the location of the array, the function can modify the actual arrays
+
+    pass by reference
+        -default for functions is pass by value
+            -with arrays defaults to pass by reference
+        
+        pass by reference is when you change the actual variable and not just a duplicate of it
+            -this can be achieved using the ampersand
+        pass by reference is actually passing the memory location and using an alias of the variable
+
+        ex.
+        void scale_number(int &num); // this function would update the value passed in and the update will hold after
+    
+    pass by reference
+        -benefit of pass by reference
+            -copying a large value takes memory and time
+        -negative of pass by reference
+            -inputs can be unintentionally updated
+    this con is solved by pass by const reference
+    ex.
+    void print (const std:: vector::<int> &v);
+
+    scope rules
+        c++ uses scope rules to determine where an identifier can be used
+            c++ uses static or lecial scoping
+        local scope or block scope
+        global scope
+
+    local or block scope-
+        indentifiers declared in a block {}
+        functions parameters have block scope
+            only visible within block {} where declared
+            function local variables only active while the function is executing
+            local variables are NOT preserved between function call
+            with nexted blocks, inner blocks can "see" outer blocks, but outer blocks cannot "see" in
+
+    one type of variable which is preserved between function calls
+        -static variables
+            ex. static int value {10};
+            static variables are only initialized once and last the duration of the progam. if uninitialized set to 0
+
+    global scope
+        indentifier declared outside of any function or Class
+        visible to all parts of the program after the global identifier has been declared
+        global constants are OK 
+        best practice, dont use global variables 
+    rules for indentifying scope
+        first check within your own scope
+        then check outer scopes
+        
 
 
+
+        
+
+        
+
+    
         
