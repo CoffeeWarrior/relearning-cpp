@@ -182,7 +182,7 @@ Constants
     defined constants
         #define pi 3.1415926
         --preprocessor substitutes all instances of pi with 3.1415926 **
-        **note: dont use this in mordern code, this was frequently used in legacy code.
+        **note: dont use this in modern code, this was frequently used in legacy code.
 
 Arrays
 
@@ -278,7 +278,7 @@ Vectors
             
 Expressions, Statements, and Operators
     expression:
-        the most basic block of a programa sequence of operators and operands that give a value
+        the most basic block of a program sequence of operators and operands that give a value
 
     types of operators:
     unary, binary, ternary
@@ -677,7 +677,292 @@ Expressions, Statements, and Operators
     rules for indentifying scope
         first check within your own scope
         then check outer scopes
+    
+--skipped some of functions
+
+Pointers
+    pointers give the power to work directly with the computers memory.
+    allows you to allocate and de-allocate memory at run time
+    
+    we will be using raw pointers and not smart pointers.
+
+    what is a pointer?
+        a pointer is a variable whos value is an address.
+    
+    what can be at that address?
+        -another variable
+        -a function
+        in order to use a pointer you need to know what the type is of what it is pointing to
+
+    why pointers?
+
+        -cant I use the variable or the function directly?
+            yes, but not always.
         
+        inside functions pointers can be used to access data that are defined outside of a function. You can either make a copy (pass by value) of the data, or you can pass the pointer to the data
+
+        pointers can operate on arrays very efficiently.
+
+        can be used to allocate memory dynamically on the heap or free store.
+            this memory doesnt even have a variable name, you cant access it without pointers
+
+    
+    how to declare a pointer:
+        variable_type *pointer_name;
+
+            ex.
+            int *int_ptr;
+            double* double_ptr;
+            char *char_ptr;
+            string *my_name;
+
+            //the * serves to declare the pointer
+            reads right to left
+            ex. int_ptr points to an int
+            
+            if you dont initialize your pointers they will contain garbage data
+
+            how to initalize pointer variables:
+            *********EXTREMELY IMPORTANT****************
+            -uninitalized pointers point to garbage data, could be accessing anything
+
+            variable_type *pointer_name{nullptr};
+            
+
+            nullptr initializes to point to zero
+
+            if you don't initalize a pointer to point to a variable or function then you should initialize it to nullptr to "make it null"
+
+    How to access the address of a pointer and store addresses inside of pointer variables
+
+        the ampersand symbol (&)
+
+        variables are stored in unique addresses
+
+        ex
+
+        int num{10}
+        std::cout << "Address of num is: " << &num << endl;
+
+        Cannot use & to access Rvals, must be Location Values.
+
+        DONT CONFUSE: the size of a pointer and the size of what it points to. 
+        all pointers in a program have the same size, they may be pointing to very large or very small types.
+
+
+        typed pointers 
+        -the compiler will make sure that the address stored in a pointer variable is of the correct type.
+
+    Dereferencing a pointer
+
+        follow the pointer to where the data is.
+        a pointer can be dereferenced by using *
+
+        ex.
+        int score{100};
+        int *score_ptr{&score};
+
+        cout << *score_ptr << endl; //100
+
+        *score_ptr = 200; //scoring 200 in the address at score_ptr
+
+        cout << *score_ptr << endl; //200
+        cout << score << endl; //200
+
+        ex.
+        double high_temp{100.7};
+        double low_temp{37.4};
+        double *temp_ptr{&high_temp};
+
+        cout << *temp_ptr << endl; //100.7
+        temp_ptr = &low_temp;
+
+        cout << *temp_ptr << endl; //37.4
+
+    Dynamic memory allocation
+
+        new
+        the new keyword allows us to access memory on the heap
+
+        ex.
+        //here we do not assign the address of an existing integer, instead we assign a value on the heap
+        int *int_ptr{nullptr};
+
+        int_ptr = new int; //allocate an integer on the heap
+
+        cout << int_ptr << endl; //address of new int (ex. 0x2747f28)
+
+        cout << *int_ptr << endl; //unassigned value, garbage response (some int, ex 414134224)
+
+        *int_ptr = 100; //dereference pointer and then set a rvalue
+
+        cout << *int_ptr << endl; //100
+
+        when you allocate storage in this manner its on the heap
+        it contains garbage data until initialized 
+        the allocated storage does not have a name, the only way to access this data is through this pointer.
+        if you lose the pointer by going out of scope or re-assigning it, then you have lost the data and you have a memory leak
+
+        when you have finished with the value, you must de-allocate the space taken by your value so the rest of your programs can use it.
+        
+        use delete to deallocate storage
+
+        ex cont.
+        delete int_ptr; //frees the allocated storage
+
+
+        using new[] to allocate storage for an array.
+        ex.
+        int *array_ptr{nullptr}; //pointer to an int
+
+        int size {};
+        cout << "How big do you want the array?" << endl;
+        cin << size;
+
+        array_ptr = new int[size]; //allocates the array on the heap contiguously in memory. sets the first position to array_ptr
+
+        ...
+
+        delete [] array_ptr; //this will delete the entire array.
+
+    Relationship between Arrays and Pointers
+
+        the value of an array name is the address of the first element in the array
+        the value of the pointer variable is an address
+        if the pointer points to the same data type as the array element then the pointer and array name can be used interchangeably (almost)
+
+        ex.
+
+        int scores[]{100, 95, 89};
+        cout << scores << endl; //0x61fec8
+        cout << *scores << endl; //100
+
+        int *score_ptr{scores};
+
+        cout << score_ptr << endl; //0x61fec8
+        cout << *score_ptr << endl; //100
+
+        // c++ doesnt have "true arrays", they are just chunks of memory
+
+        cout << (score_ptr + 1) << endl; // 0x61fecb
+        cout << (score_ptr + 2) << endl; // 0x61fecf
+
+
+        int array_name[]{1,2,3,4,5}
+        int *pointer_name{array_name};
+
+        subscript notation   |   Offset Notation
+        array_name[index]    |   *(array_name + index)
+        pointer_name[index]  |   *(pointer_name + index)
+
+    Pointer Arithemetic 
+
+        pointers can be used in 
+            assignment
+            arithmetic
+            comparison
+        C++ allows pointer arithmetic
+            -it only makes sense using it with arrays
+        
+        ++ - increment operator
+            increments a pointer to point to the next element in contiguous memory
+            ex.
+                int_ptr++ //increment by size of data type
+        -- - decremrent operator
+            decrements a pointer to point to the previous element in contiguous memory
+            ex.    
+                int_ptr-- //decrement by size of data type
+        
+        + - addition
+            increments pointer by n * sizeof(type)
+            ex.
+                int_ptr = int_ptr + n  
+        - - subtraction
+            decrements pointer by n * sizeof(type)
+            ex.
+                int_ptr = int_ptr - n
+
+        Subtracting two pointers
+            -determine the number of elements between the pointers
+
+            -both pointers must point to the same data type
+            ex.
+                int n = int_ptr2 - int_ptr1; 
+            - if the pointers point to two different data types you will get a compiler error
+        
+        comparison
+            -determines if two pointers point to the same location. 
+            -DOES NOT COMPARE THE DATA WHERE THEY POINT
+        ex.
+        string s1 {"Lucas"};
+        string s2 {"Lucas"};
+        
+        string *p1{&s1};
+        string *p2{&s2};
+        string *p3{&s3};
+
+        cout << (p1 == p2) << endl; //false
+        cout << (p1 == p3) << endl; //true
+
+    const and pointers
+
+        there are several ways to qualify pointers using const
+            pointers to constants
+            constant pointers
+            constant pointers to constants
+        
+        pointers to constants:
+            the data pointed to by the pointers is constant and cannot be changed
+            the pointer itself can change and point somewhere else
+            ex.
+                int high_score{100};
+                int low_score{65};
+                const int *score_ptr{&high_score};
+
+                *score_ptr = 86; //ERROR
+                score_pointer = &low_score; //ok 
+        
+        constant pointers:
+            The data pointed to by the pointers can be changed
+            the pointer itself cannot change and point somewhere else
+                ex.
+                int high_score{100};
+                int low_score{65};
+                int *const score_ptr{&high_score};
+
+                *score_ptr = 86; //ok
+                score_pointer = &low_score; //ERROR 
+
+        constant pointers to constants
+            the data pointed to by the pointer is constant and cannot be changed
+            the pointer itself cannot change and point somewhere else.
+
+            int high_score{100};
+            int low_score{65};
+            const in *const score_ptr {&high_score};
+
+            *score_ptr = 86; //ERROR
+            score_ptr = &low_score; // ERROR
+    
+    
+    Passing pointers to a function
+        pass-by-reference with pointer parameters
+
+        we can use pointers and the dereference operator to achieve pass-by-reference
+
+        the function parameter is a pointer
+        the actual parameter can be a pointer or address of a variable
+        ex.
+            void double_data(int *int_ptr){
+                *int_ptr *= 2; // *int_ptr = *int_ptr * 2
+            }
+
+            int main(){
+                int value{10};
+                cout << value << endl; // 10
+                double_data(&value);
+                cout << value << endl;
+            }
 
 
 
